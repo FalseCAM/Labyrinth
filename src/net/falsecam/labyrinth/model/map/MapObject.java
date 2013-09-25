@@ -24,7 +24,6 @@ public class MapObject extends Node {
     }
 
     private void create() {
-        createGround();
         createCorners();
         if (type.isTopFree()) {
             createTop();
@@ -38,16 +37,6 @@ public class MapObject extends Node {
         if (type.isRightFree()) {
             createRight();
         }
-    }
-
-    private void createGround() {
-        Box b = new Box(Vector3f.ZERO, 2f, 1f, 2f);
-        Geometry geom = new Geometry("ground", b);
-        geom.setLocalTranslation(0, -1.5f, 0);
-        Material mat = new Material(Game.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Gray);
-        geom.setMaterial(mat);
-        attachChild(geom);
     }
 
     private void createCorners() {
