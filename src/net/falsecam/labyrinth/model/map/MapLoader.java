@@ -118,7 +118,7 @@ public class MapLoader implements AssetLoader {
 
     private void parse(Document doc) {
         NodeList changeNode = doc.getElementsByTagName("change");
-        change = MapType.get(changeNode.item(0).getNodeValue());
+        change = MapType.get(changeNode.item(0).getChildNodes().item(0).getNodeValue());
         NodeList map = doc.getElementsByTagName("mapdata");
         data = map.item(0).getChildNodes().item(1).getNodeValue();
     }

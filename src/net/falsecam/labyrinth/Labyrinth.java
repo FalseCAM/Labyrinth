@@ -6,13 +6,18 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
+import net.falsecam.labyrinth.model.GameAppState;
 
 /**
- * test
- * @author normenhansen
+ *
+ * @author FalseCAM
  */
 public class Labyrinth extends SimpleApplication {
+
+    GameAppState gameAppState;
+    Node rootNode;
 
     public static void main(String[] args) {
         Labyrinth app = new Labyrinth();
@@ -21,14 +26,10 @@ public class Labyrinth extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
-        Box b = new Box(1, 1, 1);
-        Geometry geom = new Geometry("Box", b);
-
-        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Blue);
-        geom.setMaterial(mat);
-
-        rootNode.attachChild(geom);
+        Game.init(this);
+        
+        gameAppState = new GameAppState();
+        stateManager.attach(gameAppState);
     }
 
     @Override
