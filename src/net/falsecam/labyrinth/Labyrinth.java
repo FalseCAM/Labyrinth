@@ -12,10 +12,10 @@ import com.jme3.scene.shape.Box;
  * test
  * @author normenhansen
  */
-public class Main extends SimpleApplication {
+public class Labyrinth extends SimpleApplication {
 
     public static void main(String[] args) {
-        Main app = new Main();
+        Labyrinth app = new Labyrinth();
         app.start();
     }
 

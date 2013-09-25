@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map type="Labyrinth" name="standard map" version="1">
+    <change>V</change>
+    <mapdata>
+        <![CDATA[
+1T2
+5H7
+3S4
+]]>   
+    </mapdata>
+</map>

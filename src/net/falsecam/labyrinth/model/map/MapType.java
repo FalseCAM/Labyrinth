@@ -17,7 +17,9 @@ public enum MapType {
     TOPHORIZONTAL("5", "Top Horizontal", true, false, true, true), //
     BOTTOMHORIZONTAL("6", "Bottom Horizontal", false, true, true, true), //
     LEFTVERTICAL("7", "Left Vertical", true, true, true, false), //
-    RIGHTVERTICAL("8", "Right Vertical", true, true, false, true);
+    RIGHTVERTICAL("8", "Right Vertical", true, true, false, true), //
+    FREE("F", "Free", true, true, true, true), //
+    CLOSED("O", "Closed", false, false, false, false);
     private String chr;
     private String name;
     private boolean top;
@@ -57,5 +59,35 @@ public enum MapType {
 
     public boolean isRightFree() {
         return right;
+    }
+
+    public static MapType get(String chr) {
+        if (chr.equals("S")) {
+            return START;
+        } else if (chr.equals("T")) {
+            return TARGET;
+        } else if (chr.equals("H")) {
+            return HORIZONTAL;
+        } else if (chr.equals("V")) {
+            return VERTICAL;
+        } else if (chr.equals("1")) {
+            return TOPLEFT;
+        } else if (chr.equals("2")) {
+            return TOPRIGHT;
+        } else if (chr.equals("3")) {
+            return BOTTOMLEFT;
+        } else if (chr.equals("4")) {
+            return BOTTOMRIGHT;
+        } else if (chr.equals("5")) {
+            return TOPHORIZONTAL;
+        } else if (chr.equals("6")) {
+            return BOTTOMHORIZONTAL;
+        } else if (chr.equals("7")) {
+            return LEFTVERTICAL;
+        } else if (chr.equals("8")) {
+            return RIGHTVERTICAL;
+        } else {
+            return CLOSED;
+        }
     }
 }
