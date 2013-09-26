@@ -22,6 +22,7 @@ public class Labyrinth extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         Game.init(this);
+        flyCam.setEnabled(false);
         desktopInputController = new DesktopInputController();
         gameAppState = new GameAppState(desktopInputController);
         stateManager.attach(gameAppState);

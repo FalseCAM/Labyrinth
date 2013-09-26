@@ -1,5 +1,6 @@
 package net.falsecam.labyrinth.model.map;
 
+import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -14,13 +15,19 @@ import net.falsecam.labyrinth.Game;
  */
 public class MapObject extends Node {
 
-    MapType type;
+    private final MapType type;
+    private final MapElement element;
+    private RigidBodyControl control;
 
-    public MapObject(MapType type) {
-        this.type = type;
+    public MapObject(MapElement element) {
+        this.element = element;
+
+        this.type = element.getType();
         this.name = type.getName();
-
         create();
+        control = new RigidBodyControl(0);
+        this.addControl(control);
+        element.setMapObject(this);
     }
 
     private void create() {
@@ -111,5 +118,13 @@ public class MapObject extends Node {
         mat.setColor("Color", ColorRGBA.Pink);
         geom.setMaterial(mat);
         attachChild(geom);
+    }
+
+    public MapElement getMapElement() {
+        return element;
+    }
+    
+    public RigidBodyControl getControl(){
+        return this.control;
     }
 }

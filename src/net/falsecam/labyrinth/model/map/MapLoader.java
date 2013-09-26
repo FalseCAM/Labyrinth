@@ -28,7 +28,7 @@ public class MapLoader implements AssetLoader {
     private int width;
     private int height;
     private MapType change;
-    private MapType[][] objects;
+    private MapElement[][] objects;
 
     public MapLoader() {
     }
@@ -41,7 +41,7 @@ public class MapLoader implements AssetLoader {
         calculateObjects();
     }
 
-    private MapType[][] getObjects() {
+    private MapElement[][] getObjects() {
         return objects;
     }
 
@@ -67,10 +67,10 @@ public class MapLoader implements AssetLoader {
     }
 
     private void calculateObjects() {
-        this.objects = new MapType[height][width];
+        this.objects = new MapElement[height][width];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                this.objects[j][i] = MapType.CLOSED;
+                this.objects[j][i] = new MapElement(MapType.CLOSED);
             }
         }
 
@@ -81,7 +81,7 @@ public class MapLoader implements AssetLoader {
         try {
             while ((str = reader.readLine()) != null) {
                 for (int i = 0; i < str.length(); i++) {
-                    this.objects[j][i] = MapType.get(str.substring(i, i + 1));
+                    this.objects[j][i] = new MapElement(MapType.get(str.substring(i, i + 1)));
                 }
                 j++;
             }

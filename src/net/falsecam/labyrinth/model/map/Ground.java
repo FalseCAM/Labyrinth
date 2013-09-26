@@ -4,6 +4,7 @@
  */
 package net.falsecam.labyrinth.model.map;
 
+import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -19,12 +20,13 @@ import net.falsecam.labyrinth.Game;
 public class Ground extends Node {
 
     public Ground(int width, int height) {
-        Box b = new Box(Vector3f.ZERO, width, 1f, height);
+        Box b = new Box(Vector3f.ZERO, width, 0.5f, height);
         Geometry geom = new Geometry("ground", b);
-        geom.setLocalTranslation(0, -1.5f, 0);
+        geom.setLocalTranslation(0, -1f, 0);
         Material mat = new Material(Game.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Gray);
         geom.setMaterial(mat);
         attachChild(geom);
+        addControl(new RigidBodyControl(0.0f));
     }
 }

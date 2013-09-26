@@ -6,12 +6,19 @@ package net.falsecam.labyrinth.model.map;
  */
 public class MapElement {
 
+    private final MapType type;
     MapElement top;
     MapElement bottom;
     MapElement left;
     MapElement right;
+    private MapObject mapObject;
 
-    public MapElement() {
+    public MapElement(MapType type) {
+        this.type = type;
+    }
+
+    public MapType getType() {
+        return type;
     }
 
     public void setTop(MapElement top) {
@@ -44,5 +51,13 @@ public class MapElement {
 
     public MapElement getRight() {
         return right;
+    }
+
+    public void setMapObject(MapObject mapObject) {
+        this.mapObject = mapObject;
+    }
+
+    public MapObject getMapObject() {
+        return mapObject;
     }
 }

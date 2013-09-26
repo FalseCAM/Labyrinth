@@ -11,12 +11,12 @@ import net.falsecam.labyrinth.Game;
  */
 public class AbstractMap {
 
-    private MapType[][] objects;
+    private MapElement[][] objects;
     private MapType change;
     private Integer width;
     private Integer height;
 
-    public AbstractMap(MapType[][] objects, MapType change) {
+    public AbstractMap(MapElement[][] objects, MapType change) {
         this.objects = objects;
         this.change = change;
         this.width = objects.length;
@@ -37,7 +37,7 @@ public class AbstractMap {
         return builder.toString();
     }
 
-    public MapType get(Integer x, Integer y) {
+    public MapElement get(Integer x, Integer y) {
         return objects[x][height - y - 1];
     }
 
