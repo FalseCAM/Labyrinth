@@ -60,4 +60,9 @@ public class MapElement {
     public MapObject getMapObject() {
         return mapObject;
     }
+
+    @Override
+    public String toString() {
+        return type.toString();
+    }
 }

@@ -7,6 +7,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
+import com.jme3.scene.shape.Sphere;
 import net.falsecam.labyrinth.Game;
 
 /**
@@ -17,7 +18,7 @@ public class MapObject extends Node {
 
     private final MapType type;
     private final MapElement element;
-    private RigidBodyControl control;
+    private RigidBodyControl physics;
 
     public MapObject(MapElement element) {
         this.element = element;
@@ -25,23 +26,26 @@ public class MapObject extends Node {
         this.type = element.getType();
         this.name = type.getName();
         create();
-        control = new RigidBodyControl(0);
-        this.addControl(control);
+        physics = new RigidBodyControl(0);
+        this.addControl(physics);
         element.setMapObject(this);
     }
 
     private void create() {
         createCorners();
-        if (type.isTopFree()) {
+        if (type.equals(MapType.TARGET)) {
+            createTarget();
+        }
+        if (!type.isTopFree()) {
             createTop();
         }
-        if (type.isBottomFree()) {
+        if (!type.isBottomFree()) {
             createBottom();
         }
-        if (type.isLeftFree()) {
+        if (!type.isLeftFree()) {
             createLeft();
         }
-        if (type.isRightFree()) {
+        if (!type.isRightFree()) {
             createRight();
         }
     }
@@ -83,7 +87,7 @@ public class MapObject extends Node {
     private void createTop() {
         Box b = new Box(Vector3f.ZERO, 1f, 0.5f, 0.5f);
         Geometry geom = new Geometry("top", b);
-        geom.setLocalTranslation(0, 0, 1.5f);
+        geom.setLocalTranslation(0, 0, -1.5f);
         Material mat = new Material(Game.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Green);
         geom.setMaterial(mat);
@@ -93,7 +97,7 @@ public class MapObject extends Node {
     private void createBottom() {
         Box b = new Box(Vector3f.ZERO, 1f, 0.5f, 0.5f);
         Geometry geom = new Geometry("bottom", b);
-        geom.setLocalTranslation(0, 0, -1.5f);
+        geom.setLocalTranslation(0, 0, 1.5f);
         Material mat = new Material(Game.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Blue);
         geom.setMaterial(mat);
@@ -120,11 +124,21 @@ public class MapObject extends Node {
         attachChild(geom);
     }
 
+    private void createTarget() {
+        Sphere s = new Sphere(16, 16, 1);
+        Geometry geom = new Geometry("target", s);
+        geom.setLocalTranslation(0, 1, 0);
+        Material mat = new Material(Game.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", ColorRGBA.White);
+        geom.setMaterial(mat);
+        attachChild(geom);
+    }
+
     public MapElement getMapElement() {
         return element;
     }
-    
-    public RigidBodyControl getControl(){
-        return this.control;
+
+    public RigidBodyControl getPhysics() {
+        return this.physics;
     }
 }

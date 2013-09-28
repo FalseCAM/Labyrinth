@@ -3,6 +3,7 @@
  */
 package net.falsecam.labyrinth.model.map;
 
+import com.jme3.math.Vector3f;
 import net.falsecam.labyrinth.Game;
 
 /**
@@ -12,15 +13,23 @@ import net.falsecam.labyrinth.Game;
 public class AbstractMap {
 
     private MapElement[][] objects;
-    private MapType change;
+    private MapElement change;
+    private MapElement target;
     private Integer width;
     private Integer height;
 
-    public AbstractMap(MapElement[][] objects, MapType change) {
+    public AbstractMap(MapElement[][] objects, MapElement change) {
         this.objects = objects;
         this.change = change;
-        this.width = objects.length;
-        this.height = objects[0].length;
+        this.width = objects[0].length;
+        this.height = objects.length;
+        for (int j = 0; j < width; j++) {
+            for (int i = 0; i < height; i++) {
+                if (objects[i][j].getType().equals(MapType.TARGET)) {
+                    target = objects[i][j];
+                }
+            }
+        }
     }
 
     @Override
@@ -37,12 +46,16 @@ public class AbstractMap {
         return builder.toString();
     }
 
-    public MapElement get(Integer x, Integer y) {
-        return objects[x][height - y - 1];
+    public MapElement get(int x, int y) {
+        return objects[y][x];
     }
 
-    public MapType getChange() {
+    public MapElement getChange() {
         return change;
+    }
+
+    public MapElement getTarget() {
+        return target;
     }
 
     public Integer getWidth() {

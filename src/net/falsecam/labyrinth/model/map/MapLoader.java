@@ -27,7 +27,7 @@ public class MapLoader implements AssetLoader {
     private String data;
     private int width;
     private int height;
-    private MapType change;
+    private MapElement change;
     private MapElement[][] objects;
 
     public MapLoader() {
@@ -45,7 +45,7 @@ public class MapLoader implements AssetLoader {
         return objects;
     }
 
-    private MapType getChange() {
+    private MapElement getChange() {
         return change;
     }
 
@@ -57,6 +57,9 @@ public class MapLoader implements AssetLoader {
         this.height = 0;
         try {
             while ((str = reader.readLine()) != null) {
+                if (str.length() == 0) {
+                    continue;
+                }
                 if (str.length() > width) {
                     this.width = str.length();
                 }
@@ -80,6 +83,9 @@ public class MapLoader implements AssetLoader {
         int j = 0;
         try {
             while ((str = reader.readLine()) != null) {
+                if (str.length() == 0) {
+                    continue;
+                }
                 for (int i = 0; i < str.length(); i++) {
                     this.objects[j][i] = new MapElement(MapType.get(str.substring(i, i + 1)));
                 }
@@ -118,7 +124,7 @@ public class MapLoader implements AssetLoader {
 
     private void parse(Document doc) {
         NodeList changeNode = doc.getElementsByTagName("change");
-        change = MapType.get(changeNode.item(0).getChildNodes().item(0).getNodeValue());
+        change = new MapElement(MapType.get(changeNode.item(0).getChildNodes().item(0).getNodeValue()));
         NodeList map = doc.getElementsByTagName("mapdata");
         data = map.item(0).getChildNodes().item(1).getNodeValue();
     }

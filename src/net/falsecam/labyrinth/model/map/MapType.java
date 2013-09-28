@@ -38,7 +38,7 @@ public enum MapType {
 
     @Override
     public String toString() {
-        return chr;
+        return name + "(" + chr + ")";
     }
 
     public String getName() {
@@ -86,6 +86,10 @@ public enum MapType {
             return LEFTVERTICAL;
         } else if (chr.equals("8")) {
             return RIGHTVERTICAL;
+        } else if (chr.equals("F")) {
+            return FREE;
+        } else if (chr.equals("O")) {
+            return CLOSED;
         } else {
             return CLOSED;
         }
