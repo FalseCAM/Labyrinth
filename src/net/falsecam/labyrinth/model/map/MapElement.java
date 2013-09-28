@@ -61,6 +61,22 @@ public class MapElement {
         return mapObject;
     }
 
+    public boolean isTopFree() {
+        return type.isTopFree();
+    }
+
+    public boolean isBottomFree() {
+        return type.isBottomFree();
+    }
+
+    public boolean isLeftFree() {
+        return type.isLeftFree();
+    }
+
+    public boolean isRightFree() {
+        return type.isRightFree();
+    }
+
     @Override
     public String toString() {
         return type.toString();

@@ -4,9 +4,6 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
-import com.jme3.collision.CollisionResults;
-import com.jme3.math.Ray;
-import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import net.falsecam.labyrinth.Labyrinth;
@@ -34,7 +31,7 @@ public class GameAppState extends AbstractAppState {
     GameCamera camera;
     InputController inputController;
     GameController gameController;
-    public static final String mapFile = "Maps/TestMap.map.xml";
+    public static final String mapFile = "Maps/Map.map.xml";
 
     public GameAppState(InputController inputController) {
         super();
@@ -72,6 +69,8 @@ public class GameAppState extends AbstractAppState {
         abstractMap = AbstractMap.loadMapFile(mapFile);
         map = new Map(abstractMap);
         rootNode.attachChild(map.getNode());
+
+        System.out.println(abstractMap.isAcceptable());
     }
 
     private void initCamera() {
@@ -117,6 +116,7 @@ public class GameAppState extends AbstractAppState {
 
         try {
             MapElement mapElement = abstractMap.get(x, z);
+            abstractMap.setMarble(mapElement);
         } catch (Exception e) {
         }
     }
