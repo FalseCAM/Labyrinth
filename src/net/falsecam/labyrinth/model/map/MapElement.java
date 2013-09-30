@@ -81,4 +81,92 @@ public class MapElement {
     public String toString() {
         return type.toString();
     }
+
+    public void moveRight() {
+        if (right != null) {
+            top = right.getTop();
+            if (top != null) {
+                top.bottom = this;
+            }
+            bottom = right.getBottom();
+            if (bottom != null) {
+                bottom.top = this;
+            }
+            right.left = this;
+        } else {
+            if (left != null) {
+                left.right = null;
+            }
+            top = null;
+            bottom = null;
+            left = null;
+            right = null;
+        }
+    }
+
+    public void moveLeft() {
+        if (left != null) {
+            top = left.getTop();
+            if (top != null) {
+                top.bottom = this;
+            }
+            bottom = left.getBottom();
+            if (bottom != null) {
+                bottom.top = this;
+            }
+            left.right = this;
+        } else {
+            if (right != null) {
+                right.left = null;
+            }
+            top = null;
+            bottom = null;
+            left = null;
+            right = null;
+        }
+    }
+
+    public void moveUp() {
+        if (top != null) {
+            left = top.getLeft();
+            if (left != null) {
+                left.right = this;
+            }
+            right = top.getRight();
+            if (right != null) {
+                right.left = this;
+            }
+            top.bottom = this;
+        } else {
+            if (bottom != null) {
+                bottom.top = null;
+            }
+            top = null;
+            bottom = null;
+            left = null;
+            right = null;
+        }
+    }
+
+    public void moveDown() {
+        if (bottom != null) {
+            left = bottom.getLeft();
+            if (left != null) {
+                left.right = this;
+            }
+            right = bottom.getRight();
+            if (right != null) {
+                right.left = this;
+            }
+            bottom.top = this;
+        } else {
+            if (top != null) {
+                top.bottom = null;
+            }
+            top = null;
+            bottom = null;
+            left = null;
+            right = null;
+        }
+    }
 }

@@ -28,6 +28,7 @@ public class MapObject extends Node {
         create();
         physics = new RigidBodyControl(0);
         this.addControl(physics);
+        physics.setKinematic(false);
         element.setMapObject(this);
     }
 
@@ -99,7 +100,7 @@ public class MapObject extends Node {
         Geometry geom = new Geometry("bottom", b);
         geom.setLocalTranslation(0, 0, 1.5f);
         Material mat = new Material(Game.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Blue);
+        mat.setColor("Color", ColorRGBA.Green);
         geom.setMaterial(mat);
         attachChild(geom);
     }

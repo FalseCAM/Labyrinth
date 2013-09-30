@@ -1,25 +1,24 @@
 package net.falsecam.labyrinth.model.ai;
 
-import java.util.List;
+import net.falsecam.labyrinth.model.map.AbstractMap;
 import net.falsecam.labyrinth.model.map.MapElement;
-import net.falsecam.labyrinth.model.map.MapType;
 
 /**
  *
  * @author FalseCAM
  */
 public class DistanceAlgo {
-
-    private final MapElement[][] elements;
+    
+    private final AbstractMap map;
     private final int[][] distances;
     private MapElement start;
     private MapElement target;
-
-    public DistanceAlgo(MapElement[][] elements) {
-        this.elements = elements;
-        this.distances = new int[elements.length][elements[0].length];
+    
+    public DistanceAlgo(AbstractMap map) {
+        this.map = map;
+        this.distances = new int[map.getHeight()][map.getWidth()];
     }
-
+    
     public int distance(MapElement start, MapElement target) {
         this.start = start;
         this.target = target;
@@ -27,18 +26,18 @@ public class DistanceAlgo {
         calculateDistances();
         for (int j = 0; j < distances.length; j++) {
             for (int i = 0; i < distances[j].length; i++) {
-                if (elements[j][i] == target) {
+                if (map.get(i, j) == this.target) {
                     return distances[j][i];
                 }
             }
         }
         return 0;
     }
-
+    
     private void initDistances() {
         for (int j = 0; j < distances.length; j++) {
             for (int i = 0; i < distances[j].length; i++) {
-                if (elements[j][i] == start) {
+                if (map.get(i, j) == start) {
                     distances[j][i] = 0;
                 } else {
                     distances[j][i] = Integer.MAX_VALUE;
@@ -46,19 +45,19 @@ public class DistanceAlgo {
             }
         }
     }
-
+    
     private void calculateDistances() {
         for (int j = 0; j < distances.length; j++) {
             for (int i = 0; i < distances[j].length; i++) {
-                if (elements[j][i] == start) {
+                if (map.get(i, j) == start) {
                     calculateDistances(i, j);
                 }
             }
         }
     }
-
+    
     public void calculateDistances(int x, int y) {
-        MapElement actual = elements[y][x];
+        MapElement actual = map.get(x, y);
         if (actual.getBottom() != null && actual.isBottomFree() && actual.getBottom().isTopFree() && (distances[y][x] < distances[y + 1][x])) {
             distances[y + 1][x] = distances[y][x] + 1;
             calculateDistances(x, y + 1);

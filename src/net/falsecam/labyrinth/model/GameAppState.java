@@ -32,6 +32,7 @@ public class GameAppState extends AbstractAppState {
     InputController inputController;
     GameController gameController;
     public static final String mapFile = "Maps/Map.map.xml";
+    float timer = 0;
 
     public GameAppState(InputController inputController) {
         super();
@@ -56,7 +57,12 @@ public class GameAppState extends AbstractAppState {
 
     @Override
     public void update(float tpf) {
-        updateMarble();
+        this.timer += tpf;
+        if (timer > 3) {
+            timer = 0;
+            updateMarble();
+
+        }
     }
 
     @Override
@@ -70,10 +76,6 @@ public class GameAppState extends AbstractAppState {
         abstractMap = AbstractMap.loadMapFile(mapFile);
         map = new Map(abstractMap);
         rootNode.attachChild(map.getNode());
-
-
-
-        System.out.println(abstractMap.isAcceptable());
     }
 
     private void initCamera() {
@@ -117,10 +119,13 @@ public class GameAppState extends AbstractAppState {
         int z = (int) (marble.getNode().getWorldTranslation().getZ() / 4 + abstractMap.getHeight() / 2
                 + (abstractMap.getHeight() % 2 == 1 ? 0.5 : 0));
         ai.doWork(x, z);
+        map.updateWalls();
         try {
             MapElement mapElement = abstractMap.get(x, z);
             abstractMap.setMarble(mapElement);
         } catch (Exception e) {
         }
+
+        
     }
 }

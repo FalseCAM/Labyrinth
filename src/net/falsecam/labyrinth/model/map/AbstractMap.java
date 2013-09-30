@@ -3,7 +3,6 @@
  */
 package net.falsecam.labyrinth.model.map;
 
-import com.jme3.math.Vector3f;
 import java.util.LinkedList;
 import java.util.List;
 import net.falsecam.labyrinth.Game;
@@ -26,11 +25,15 @@ public class AbstractMap {
         this.change = change;
         this.width = objects[0].length;
         this.height = objects.length;
-        createObjects();
+        updateObjects();
 
     }
 
-    private void createObjects() {
+    private void updateObjects() {
+        change.bottom = null;
+        change.left = null;
+        change.right = null;
+        change.top = null;
         for (int j = 0; j < height; j++) {
             for (int i = 0; i < width; i++) {
                 if (objects[j][i].getType().equals(MapType.TARGET)) {
@@ -39,17 +42,26 @@ public class AbstractMap {
                 if (objects[j][i].getType().equals(MapType.START)) {
                     marble = objects[j][i];
                 }
+
                 if (i > 0) {
                     objects[j][i].setLeft(objects[j][i - 1]);
+                } else {
+                    objects[j][i].setLeft(null);
                 }
                 if (j > 0) {
                     objects[j][i].setTop(objects[j - 1][i]);
+                } else {
+                    objects[j][i].setTop(null);
                 }
                 if (i < width - 1) {
                     objects[j][i].setRight(objects[j][i + 1]);
+                } else {
+                    objects[j][i].setRight(null);
                 }
                 if (j < height - 1) {
                     objects[j][i].setBottom(objects[j + 1][i]);
+                } else {
+                    objects[j][i].setBottom(null);
                 }
             }
         }
@@ -58,6 +70,9 @@ public class AbstractMap {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
+        builder.append("Change: ");
+        builder.append(change.toString());
+        builder.append("\n");
         for (int j = 0; j < height; j++) {
             for (int i = 0; i < width; i++) {
                 builder.append(objects[j][i].toString());
@@ -135,5 +150,65 @@ public class AbstractMap {
 
     public MapElement[][] getElements() {
         return objects;
+    }
+
+    public void changeToRight(int pos) {
+        MapElement temp = change;
+        temp.right = objects[pos][0];
+        change = objects[pos][width - 1];
+        change.left = null;
+        change.bottom = null;
+        change.right = null;
+        change.top = null;
+        for (int i = width - 1; i > 0; i--) {
+            objects[pos][i] = objects[pos][i - 1];
+        }
+        objects[pos][0] = temp;
+        updateObjects();
+    }
+
+    public void changeToLeft(int pos) {
+        MapElement temp = change;
+        temp.left = objects[pos][width - 1];
+        change = objects[pos][0];
+        change.left = null;
+        change.bottom = null;
+        change.right = null;
+        change.top = null;
+        for (int i = 0; i < width - 1; i++) {
+            objects[pos][i] = objects[pos][i + 1];
+        }
+        objects[pos][width - 1] = temp;
+        updateObjects();
+    }
+
+    public void changeToTop(int pos) {
+        MapElement temp = change;
+        temp.top = objects[height - 1][pos];
+        change = objects[0][pos];
+        change.left = null;
+        change.bottom = null;
+        change.right = null;
+        change.top = null;
+        for (int i = 0; i < height - 1; i++) {
+            objects[i][pos] = objects[i + 1][pos];
+        }
+        objects[height - 1][pos] = temp;
+        updateObjects();
+    }
+
+    public void changeToBottom(int pos) {
+        MapElement temp = change;
+        temp.bottom = objects[0][pos];
+        change = objects[height - 1][pos];
+        change.left = null;
+        change.bottom = null;
+        change.right = null;
+        change.top = null;
+        for (int i = height - 1; i > 0; i--) {
+            objects[i][pos] = objects[i - 1][pos];
+        }
+        objects[0][pos] = temp;
+        updateObjects();
     }
 }
