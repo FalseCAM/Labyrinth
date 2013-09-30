@@ -46,6 +46,7 @@ public class GameAppState extends AbstractAppState {
         initMap();
         initMarble();
         initCamera();
+        ai = new AI(abstractMap);
         gameController = new GameController(this);
         inputController.initInput(app.getInputManager());
         inputController.setGameController(gameController);
@@ -69,6 +70,8 @@ public class GameAppState extends AbstractAppState {
         abstractMap = AbstractMap.loadMapFile(mapFile);
         map = new Map(abstractMap);
         rootNode.attachChild(map.getNode());
+
+
 
         System.out.println(abstractMap.isAcceptable());
     }
@@ -113,7 +116,7 @@ public class GameAppState extends AbstractAppState {
                 + (abstractMap.getWidth() % 2 == 1 ? 0.5 : 0));
         int z = (int) (marble.getNode().getWorldTranslation().getZ() / 4 + abstractMap.getHeight() / 2
                 + (abstractMap.getHeight() % 2 == 1 ? 0.5 : 0));
-
+        ai.doWork(x, z);
         try {
             MapElement mapElement = abstractMap.get(x, z);
             abstractMap.setMarble(mapElement);

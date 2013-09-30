@@ -27,6 +27,7 @@ public class AI {
     }
 
     private void findWay(int x, int y) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        DistanceAlgo dA = new DistanceAlgo(map.getElements());
+        System.out.println(dA.distance(map.get(marbleX, marbleY), map.getTarget()));
     }
 }

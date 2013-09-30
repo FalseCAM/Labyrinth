@@ -132,4 +132,8 @@ public class AbstractMap {
         }
         return false;
     }
+
+    public MapElement[][] getElements() {
+        return objects;
+    }
 }
