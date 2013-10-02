@@ -4,6 +4,9 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.light.AmbientLight;
+import com.jme3.light.DirectionalLight;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import net.falsecam.labyrinth.Labyrinth;
@@ -24,6 +27,8 @@ public class GameAppState extends AbstractAppState {
     private Labyrinth app;
     Node rootNode;
     BulletAppState bulletAppState;
+    DirectionalLight sun = new DirectionalLight();
+    AmbientLight al = new AmbientLight();
     AI ai;
     AbstractMap abstractMap;
     Map map;
@@ -33,6 +38,7 @@ public class GameAppState extends AbstractAppState {
     GameController gameController;
     public static final String mapFile = "Maps/Map.map.xml";
     float timer = 0;
+    private boolean start = false;
 
     public GameAppState(InputController inputController) {
         super();
@@ -47,6 +53,7 @@ public class GameAppState extends AbstractAppState {
         initMap();
         initMarble();
         initCamera();
+        initLights();
         ai = new AI(abstractMap);
         gameController = new GameController(this);
         inputController.initInput(app.getInputManager());
@@ -58,10 +65,14 @@ public class GameAppState extends AbstractAppState {
     @Override
     public void update(float tpf) {
         this.timer += tpf;
-        if (timer > 3) {
+        if (timer > 3 && start) {
             timer = 0;
             updateMarble();
 
+        } else {
+            if (this.timer > 5) {
+                this.start = true;
+            }
         }
     }
 
@@ -80,6 +91,14 @@ public class GameAppState extends AbstractAppState {
 
     private void initCamera() {
         camera = new GameCamera(this.app.getCamera());
+    }
+
+    private void initLights() {
+        sun.setColor(ColorRGBA.White);
+        sun.setDirection(new Vector3f(-.5f, -.5f, -.5f).normalizeLocal());
+        rootNode.addLight(sun);
+        al.setColor(ColorRGBA.White.mult(0.4f));
+        rootNode.addLight(al);
     }
 
     private void initMarble() {
@@ -105,7 +124,7 @@ public class GameAppState extends AbstractAppState {
         bulletAppState.getPhysicsSpace().addAll(rootNode);
         //bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0, -9.81f, 0));
         // Debug Physics
-        //bulletAppState.getPhysicsSpace().enableDebug(app.getAssetManager());
+        bulletAppState.getPhysicsSpace().enableDebug(app.getAssetManager());
     }
 
     public Marble getMarble() {
@@ -120,12 +139,14 @@ public class GameAppState extends AbstractAppState {
                 + (abstractMap.getHeight() % 2 == 1 ? 0.5 : 0));
         ai.doWork(x, z);
         map.updateWalls();
+        //bulletAppState.getPhysicsSpace().setWorldMax(new Vector3f(x+3,5,z+3));
+        //bulletAppState.getPhysicsSpace().setWorldMin(new Vector3f(x-3,-5,z-3));
         try {
             MapElement mapElement = abstractMap.get(x, z);
             abstractMap.setMarble(mapElement);
         } catch (Exception e) {
         }
 
-        
+
     }
 }

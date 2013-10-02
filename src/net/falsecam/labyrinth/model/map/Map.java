@@ -34,7 +34,7 @@ public class Map {
     }
 
     private void createGround() {
-        ground = new Ground(abstractMap.getWidth() * 2, abstractMap.getHeight() * 2);
+        ground = new Ground(abstractMap.getWidth(), abstractMap.getHeight());
         node.attachChild(ground);
     }
 
@@ -47,7 +47,8 @@ public class Map {
             for (int i = 0; i < abstractMap.getWidth(); i++) {
                 Vector3f position = new Vector3f(x + 4 * i, 0, z + 4 * j);
                 MapElement mapElement = abstractMap.get(i, j);
-                mapElement.getMapObject().getPhysics().setPhysicsLocation(position);
+                mapElement.getMapObject().setLocalTranslation(position);
+                //mapElement.getMapObject().getPhysics().setPhysicsLocation(position);
             }
         }
     }

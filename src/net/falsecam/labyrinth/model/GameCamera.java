@@ -17,7 +17,7 @@ public class GameCamera {
     }
 
     private void initCamera() {
-        camera.setLocation(new Vector3f(0, 35, 40));
+        camera.setLocation(new Vector3f(0, 40, 50));
         camera.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y);
     }
 
