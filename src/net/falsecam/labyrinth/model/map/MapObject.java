@@ -98,8 +98,10 @@ public class MapObject extends Node {
         Sphere s = new Sphere(16, 16, 1);
         Geometry geom = new Geometry("target", s);
         geom.setLocalTranslation(0, 1, 0);
-        Material mat = new Material(Game.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.White);
+        Material mat = new Material(Game.getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
+        mat.setTexture("DiffuseMap",
+                Game.getAssetManager().loadTexture("Textures/Map/Target.jpg"));
+        mat.setFloat("Shininess", 5f);
         geom.setMaterial(mat);
         attachChild(geom);
     }

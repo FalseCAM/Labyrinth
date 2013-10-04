@@ -15,29 +15,33 @@ import net.falsecam.labyrinth.Game;
  * @author FalseCAM
  */
 public class Marble {
-    
+
     Node node;
     RigidBodyControl physics;
-    
+
     public Marble() {
         this.node = new Node("Marble");
         create();
         createPhysics();
     }
-    
+
     public Node getNode() {
         return node;
     }
-    
+
     private void create() {
-        Sphere mesh = new Sphere(8, 8, 0.3f);
+        Sphere mesh = new Sphere(16, 16, 0.3f);
         Geometry geom = new Geometry("Marble", mesh);
-        Material mat = new Material(Game.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Red);
+        Material mat = new Material(Game.getAssetManager(), "Common/MatDefs/Light/Lighting.j3md");
+        mat.setTexture("DiffuseMap",
+                Game.getAssetManager().loadTexture("Textures/Marble.jpg"));
+        mat.setTexture("NormalMap",
+                Game.getAssetManager().loadTexture("Textures/Marble_normal.png"));
+        mat.setFloat("Shininess", 5f);
         geom.setMaterial(mat);
         node.attachChild(geom);
     }
-    
+
     private void createPhysics() {
         SphereCollisionShape sphereShape =
                 new SphereCollisionShape(0.3f);
@@ -47,7 +51,7 @@ public class Marble {
         physics.setCollideWithGroups(PhysicsCollisionObject.COLLISION_GROUP_03);
         physics.addCollideWithGroup(PhysicsCollisionObject.COLLISION_GROUP_04);
     }
-    
+
     public RigidBodyControl getPhysics() {
         return physics;
     }

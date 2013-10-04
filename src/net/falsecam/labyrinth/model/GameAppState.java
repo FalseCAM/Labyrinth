@@ -4,6 +4,7 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.font.BitmapText;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
@@ -65,7 +66,7 @@ public class GameAppState extends AbstractAppState {
     @Override
     public void update(float tpf) {
         this.timer += tpf;
-        if (timer > 3 && start) {
+        if (timer > 5 && start) {
             timer = 0;
             updateMarble();
 
@@ -124,7 +125,7 @@ public class GameAppState extends AbstractAppState {
         bulletAppState.getPhysicsSpace().addAll(rootNode);
         //bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0, -9.81f, 0));
         // Debug Physics
-        bulletAppState.getPhysicsSpace().enableDebug(app.getAssetManager());
+        //bulletAppState.getPhysicsSpace().enableDebug(app.getAssetManager());
     }
 
     public Marble getMarble() {
@@ -137,6 +138,9 @@ public class GameAppState extends AbstractAppState {
                 + (abstractMap.getWidth() % 2 == 1 ? 0.5 : 0));
         int z = (int) (marble.getNode().getWorldTranslation().getZ() / 4 + abstractMap.getHeight() / 2
                 + (abstractMap.getHeight() % 2 == 1 ? 0.5 : 0));
+        if (abstractMap.get(x, z) == abstractMap.getTarget()) {
+            showWin();
+        }
         ai.doWork(x, z);
         map.updateWalls();
         //bulletAppState.getPhysicsSpace().setWorldMax(new Vector3f(x+3,5,z+3));
@@ -148,5 +152,15 @@ public class GameAppState extends AbstractAppState {
         }
 
 
+    }
+
+    private void showWin() {
+        app.getGuiNode().detachAllChildren();
+        BitmapText hudText = new BitmapText(app.getGuiFont(), false);
+        hudText.setSize(app.getGuiFont().getCharSet().getRenderedSize());
+        hudText.setColor(ColorRGBA.White);
+        hudText.setText("W I N !!!");
+        hudText.setLocalTranslation(app.getContext().getSettings().getWidth() / 2, hudText.getLineHeight(), 0);
+        app.getGuiNode().attachChild(hudText);
     }
 }

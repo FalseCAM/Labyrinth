@@ -1,6 +1,7 @@
 package net.falsecam.labyrinth;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.font.BitmapFont;
 import com.jme3.renderer.RenderManager;
 import net.falsecam.labyrinth.controller.DesktopInputController;
 import net.falsecam.labyrinth.model.GameAppState;
@@ -26,6 +27,7 @@ public class Labyrinth extends SimpleApplication {
         desktopInputController = new DesktopInputController();
         gameAppState = new GameAppState(desktopInputController);
         stateManager.attach(gameAppState);
+
     }
 
     @Override
@@ -36,5 +38,9 @@ public class Labyrinth extends SimpleApplication {
     @Override
     public void simpleRender(RenderManager rm) {
         //TODO: add render code
+    }
+
+    public BitmapFont getGuiFont() {
+        return this.guiFont;
     }
 }

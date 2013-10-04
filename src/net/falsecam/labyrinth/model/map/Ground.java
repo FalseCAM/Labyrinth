@@ -73,7 +73,7 @@ public class Ground extends Node {
         geom1.setLocalTranslation(-1.5f, 0, -1.5f);
         Material mat1 = new Material(Game.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
         mat1.setColor("Color", ColorRGBA.Red);
-        geom1.setMaterial(mat1);
+        geom1.setMaterial(createMat());
         node.attachChild(geom1);
 
         Box b2 = new Box(Vector3f.ZERO, 0.5f, 0.5f, 0.5f);
@@ -81,7 +81,7 @@ public class Ground extends Node {
         geom2.setLocalTranslation(+1.5f, 0, -1.5f);
         Material mat2 = new Material(Game.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
         mat2.setColor("Color", ColorRGBA.Red);
-        geom2.setMaterial(mat2);
+        geom2.setMaterial(createMat());
         node.attachChild(geom2);
 
         Box b3 = new Box(Vector3f.ZERO, 0.5f, 0.5f, 0.5f);
@@ -89,7 +89,7 @@ public class Ground extends Node {
         geom3.setLocalTranslation(-1.5f, 0, +1.5f);
         Material mat3 = new Material(Game.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
         mat3.setColor("Color", ColorRGBA.Red);
-        geom3.setMaterial(mat3);
+        geom3.setMaterial(createMat());
         node.attachChild(geom3);
 
         Box b4 = new Box(Vector3f.ZERO, 0.5f, 0.5f, 0.5f);
@@ -97,8 +97,23 @@ public class Ground extends Node {
         geom4.setLocalTranslation(+1.5f, 0, +1.5f);
         Material mat4 = new Material(Game.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
         mat4.setColor("Color", ColorRGBA.Red);
-        geom4.setMaterial(mat4);
+        geom4.setMaterial(createMat());
         node.attachChild(geom4);
         return node;
+    }
+
+    private Material createMat() {
+        Material mat = new Material(Game.getAssetManager(),
+                "Common/MatDefs/Light/Lighting.j3md");
+        TextureKey tKey = new TextureKey("Textures/Map/Wall.png");
+        Texture tex = Game.getAssetManager().loadTexture(tKey);
+        tex.setWrap(Texture.WrapMode.Repeat);
+        mat.setTexture("DiffuseMap", tex);
+        mat.setBoolean("UseMaterialColors", true);
+        mat.setColor("Ambient", ColorRGBA.Orange);
+        mat.setColor("Diffuse", ColorRGBA.Orange);
+        mat.setColor("Specular", ColorRGBA.White);
+        mat.setFloat("Shininess", 12);
+        return mat;
     }
 }

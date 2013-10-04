@@ -36,24 +36,24 @@ public class AI {
         best_position = 0;
         best_distance = 0;
         best_direction = Type.UP;
-        if (timer == 0) {
-            for (int i = 2; i < map.getWidth() - 1; i++) {
-                if (i == marbleX) {
-                    continue;
-                }
-                testMove(i, Type.UP);
-                testMove(i, Type.DOWN);
+        //if (timer == 0) {
+        for (int i = 2; i < map.getWidth() - 1; i++) {
+            if (i == marbleX) {
+                continue;
             }
-            for (int j = 2; j < map.getHeight() - 1; j++) {
-                if (j == marbleY) {
-                    continue;
-                }
-                testMove(j, Type.LEFT);
-                testMove(j, Type.RIGHT);
-            }
-        } else {
-            doRandomMove(marbleX, marbleY);
+            testMove(i, Type.UP);
+            testMove(i, Type.DOWN);
         }
+        for (int j = 2; j < map.getHeight() - 1; j++) {
+            if (j == marbleY) {
+                continue;
+            }
+            testMove(j, Type.LEFT);
+            testMove(j, Type.RIGHT);
+        }
+        //} else {
+        //doRandomMove(marbleX, marbleY);
+        //}
 
         doMove(best_position, best_direction);
     }
