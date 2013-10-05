@@ -4,7 +4,7 @@ import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.SphereCollisionShape;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Sphere;
@@ -18,6 +18,8 @@ public class Marble {
 
     Node node;
     RigidBodyControl physics;
+    private final float moveSpeed = 5f;
+    private boolean jump = true;
 
     public Marble() {
         this.node = new Node("Marble");
@@ -54,5 +56,35 @@ public class Marble {
 
     public RigidBodyControl getPhysics() {
         return physics;
+    }
+
+    public void giveJump() {
+        this.jump = true;
+    }
+
+    public void jump() {
+        if (this.jump == true) {
+            this.jump = false;
+            if (physics.getPhysicsLocation().getY() < 1) {
+                physics.setLinearVelocity(new Vector3f(0, moveSpeed, 0));
+            }
+        }
+
+    }
+
+    public void moveUp() {
+        physics.setLinearVelocity(new Vector3f(0, 0, -moveSpeed));
+    }
+
+    public void moveDown() {
+        physics.setLinearVelocity(new Vector3f(0, 0, moveSpeed));
+    }
+
+    public void moveLeft() {
+        physics.setLinearVelocity(new Vector3f(-moveSpeed, 0, 0));
+    }
+
+    public void moveRight() {
+        physics.setLinearVelocity(new Vector3f(moveSpeed, 0, 0));
     }
 }

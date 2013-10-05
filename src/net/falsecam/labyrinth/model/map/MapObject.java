@@ -41,6 +41,9 @@ public class MapObject extends Node {
         if (type.equals(MapType.TARGET)) {
             createTarget();
         }
+        if (type.equals(MapType.STAR)) {
+            createStar();
+        }
         if (!type.isTopFree()) {
             createTop();
         }
@@ -54,6 +57,7 @@ public class MapObject extends Node {
             createRight();
         }
     }
+
     private void createTop() {
         Box b = new Box(Vector3f.ZERO, 1f, 0.6f, 0.5f);
         Geometry geom = new Geometry("top", b);
@@ -102,6 +106,15 @@ public class MapObject extends Node {
         mat.setTexture("DiffuseMap",
                 Game.getAssetManager().loadTexture("Textures/Map/Target.jpg"));
         mat.setFloat("Shininess", 5f);
+        geom.setMaterial(mat);
+        attachChild(geom);
+    }
+
+    private void createStar() {
+        Sphere s = new Sphere(5, 5, 0.4f);
+        Geometry geom = new Geometry("star", s);
+        geom.setLocalTranslation(0, 1, 0);
+        Material mat = new Material(Game.getAssetManager(), "Materials/Normale.j3md");
         geom.setMaterial(mat);
         attachChild(geom);
     }

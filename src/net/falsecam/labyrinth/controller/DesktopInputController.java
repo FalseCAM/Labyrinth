@@ -28,7 +28,9 @@ public class DesktopInputController implements InputController, AnalogListener {
                 new KeyTrigger(KeyInput.KEY_LEFT));
         inputManager.addMapping("Right",
                 new KeyTrigger(KeyInput.KEY_RIGHT));
-        inputManager.addListener(this, new String[]{"Up", "Down", "Left", "Right"});
+        inputManager.addMapping("Jump",
+                new KeyTrigger(KeyInput.KEY_SPACE));
+        inputManager.addListener(this, new String[]{"Up", "Down", "Left", "Right", "Jump"});
     }
 
     public void cleanup() {
@@ -57,6 +59,10 @@ public class DesktopInputController implements InputController, AnalogListener {
         } else if (name.equals("Right")) {
             if (gameController != null) {
                 gameController.moveRight();
+            }
+        }else if(name.equals("Jump")){
+            if(gameController != null){
+                gameController.jump();
             }
         }
     }

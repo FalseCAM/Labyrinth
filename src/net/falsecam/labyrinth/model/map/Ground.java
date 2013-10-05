@@ -68,7 +68,7 @@ public class Ground extends Node {
 
     private Node createCornersNode() {
         Node node = new Node("corners");
-        Box b1 = new Box(Vector3f.ZERO, 0.5f, 0.5f, 0.5f);
+        Box b1 = new Box(Vector3f.ZERO, 0.5f, 0.8f, 0.5f);
         Geometry geom1 = new Geometry("corner1", b1);
         geom1.setLocalTranslation(-1.5f, 0, -1.5f);
         Material mat1 = new Material(Game.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
@@ -76,7 +76,7 @@ public class Ground extends Node {
         geom1.setMaterial(createMat());
         node.attachChild(geom1);
 
-        Box b2 = new Box(Vector3f.ZERO, 0.5f, 0.5f, 0.5f);
+        Box b2 = new Box(Vector3f.ZERO, 0.5f, 0.8f, 0.5f);
         Geometry geom2 = new Geometry("corner2", b2);
         geom2.setLocalTranslation(+1.5f, 0, -1.5f);
         Material mat2 = new Material(Game.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
@@ -84,7 +84,7 @@ public class Ground extends Node {
         geom2.setMaterial(createMat());
         node.attachChild(geom2);
 
-        Box b3 = new Box(Vector3f.ZERO, 0.5f, 0.5f, 0.5f);
+        Box b3 = new Box(Vector3f.ZERO, 0.5f, 0.8f, 0.5f);
         Geometry geom3 = new Geometry("corner3", b3);
         geom3.setLocalTranslation(-1.5f, 0, +1.5f);
         Material mat3 = new Material(Game.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
@@ -92,7 +92,7 @@ public class Ground extends Node {
         geom3.setMaterial(createMat());
         node.attachChild(geom3);
 
-        Box b4 = new Box(Vector3f.ZERO, 0.5f, 0.5f, 0.5f);
+        Box b4 = new Box(Vector3f.ZERO, 0.5f, 0.8f, 0.5f);
         Geometry geom4 = new Geometry("corner4", b4);
         geom4.setLocalTranslation(+1.5f, 0, +1.5f);
         Material mat4 = new Material(Game.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");

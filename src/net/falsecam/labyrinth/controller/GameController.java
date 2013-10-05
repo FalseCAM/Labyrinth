@@ -13,7 +13,7 @@ import net.falsecam.labyrinth.model.GameAppState;
  */
 public class GameController {
 
-    private final float moveSpeed = 5f;
+    
     private final GameAppState gameAppState;
 
     public GameController(GameAppState gameAppState) {
@@ -21,18 +21,22 @@ public class GameController {
     }
 
     void moveUp() {
-        gameAppState.getMarble().getPhysics().setLinearVelocity(new Vector3f(0, 0, -moveSpeed));
+        gameAppState.getMarble().moveUp();
     }
 
     void moveDown() {
-        gameAppState.getMarble().getPhysics().setLinearVelocity(new Vector3f(0, 0, moveSpeed));
+        gameAppState.getMarble().moveDown();
     }
 
     void moveLeft() {
-        gameAppState.getMarble().getPhysics().setLinearVelocity(new Vector3f(-moveSpeed, 0, 0));
+        gameAppState.getMarble().moveLeft();
     }
 
     void moveRight() {
-        gameAppState.getMarble().getPhysics().setLinearVelocity(new Vector3f(moveSpeed, 0, 0));
+        gameAppState.getMarble().moveRight();
+    }
+
+    void jump() {
+        gameAppState.getMarble().jump();
     }
 }

@@ -19,6 +19,7 @@ public enum MapType {
     LEFTVERTICAL("3", "Left Vertical", true, true, true, false), //
     RIGHTVERTICAL("4", "Right Vertical", true, true, false, true), //
     FREE("+", "Free", true, true, true, true), //
+    STAR("*", "Star", true, true, true, true), //
     CLOSED("O", "Closed", false, false, false, false);
     private String chr;
     private String name;

@@ -65,16 +65,8 @@ public class GameAppState extends AbstractAppState {
 
     @Override
     public void update(float tpf) {
-        this.timer += tpf;
-        if (timer > 5 && start) {
-            timer = 0;
-            updateMarble();
+        updateMarble(tpf);
 
-        } else {
-            if (this.timer > 5) {
-                this.start = true;
-            }
-        }
     }
 
     @Override
@@ -123,7 +115,7 @@ public class GameAppState extends AbstractAppState {
         bulletAppState.setThreadingType(BulletAppState.ThreadingType.PARALLEL);
         app.getStateManager().attach(bulletAppState);
         bulletAppState.getPhysicsSpace().addAll(rootNode);
-        //bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0, -9.81f, 0));
+        bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0, -8f, 0));
         // Debug Physics
         //bulletAppState.getPhysicsSpace().enableDebug(app.getAssetManager());
     }
@@ -132,7 +124,7 @@ public class GameAppState extends AbstractAppState {
         return marble;
     }
 
-    private void updateMarble() {
+    private void updateMarble(float tpf) {
 
         int x = (int) (marble.getNode().getWorldTranslation().getX() / 4 + abstractMap.getWidth() / 2
                 + (abstractMap.getWidth() % 2 == 1 ? 0.5 : 0));
@@ -140,18 +132,24 @@ public class GameAppState extends AbstractAppState {
                 + (abstractMap.getHeight() % 2 == 1 ? 0.5 : 0));
         if (abstractMap.get(x, z) == abstractMap.getTarget()) {
             showWin();
+        } else if (abstractMap.get(x, z).getType().equals(MapType.STAR)) {
+            marble.giveJump();
         }
-        ai.doWork(x, z);
-        map.updateWalls();
-        //bulletAppState.getPhysicsSpace().setWorldMax(new Vector3f(x+3,5,z+3));
-        //bulletAppState.getPhysicsSpace().setWorldMin(new Vector3f(x-3,-5,z-3));
-        try {
-            MapElement mapElement = abstractMap.get(x, z);
-            abstractMap.setMarble(mapElement);
-        } catch (Exception e) {
+        this.timer += tpf;
+        if (timer > 5 && start) {
+            timer = 0;
+            ai.doWork(x, z);
+            map.updateWalls();
+            try {
+                MapElement mapElement = abstractMap.get(x, z);
+                abstractMap.setMarble(mapElement);
+            } catch (Exception e) {
+            }
+        } else {
+            if (this.timer > 5) {
+                this.start = true;
+            }
         }
-
-
     }
 
     private void showWin() {
