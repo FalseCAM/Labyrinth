@@ -60,10 +60,14 @@ public class DesktopInputController implements InputController, AnalogListener {
             if (gameController != null) {
                 gameController.moveRight();
             }
-        }else if(name.equals("Jump")){
-            if(gameController != null){
+        } else if (name.equals("Jump")) {
+            if (gameController != null) {
                 gameController.jump();
             }
         }
+    }
+
+    public String getJumpText() {
+        return "Press <SPACE> to jump";
     }
 }

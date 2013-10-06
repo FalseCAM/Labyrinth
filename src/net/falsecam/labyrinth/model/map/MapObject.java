@@ -29,7 +29,7 @@ public class MapObject extends Node {
         this.type = element.getType();
         this.name = type.getName();
         create();
-        physics = new RigidBodyControl(1f);
+        physics = new RigidBodyControl(100f);
         this.addControl(physics);
         physics.setKinematic(true);
         physics.setCollisionGroup(PhysicsCollisionObject.COLLISION_GROUP_04);

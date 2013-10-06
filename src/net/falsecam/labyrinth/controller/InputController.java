@@ -16,4 +16,6 @@ public interface InputController {
     public void setGameController(GameController gameController);
 
     public void cleanup();
+    
+    public String getJumpText();
 }

@@ -85,7 +85,11 @@ public class AbstractMap {
     }
 
     public MapElement get(int x, int y) {
-        return objects[y][x];
+        try {
+            return objects[y][x];
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public MapElement getChange() {

@@ -15,22 +15,22 @@ import net.falsecam.labyrinth.Game;
  * @author FalseCAM
  */
 public class Marble {
-
+    
     Node node;
     RigidBodyControl physics;
     private final float moveSpeed = 5f;
     private boolean jump = true;
-
+    
     public Marble() {
         this.node = new Node("Marble");
         create();
         createPhysics();
     }
-
+    
     public Node getNode() {
         return node;
     }
-
+    
     private void create() {
         Sphere mesh = new Sphere(16, 16, 0.3f);
         Geometry geom = new Geometry("Marble", mesh);
@@ -43,25 +43,26 @@ public class Marble {
         geom.setMaterial(mat);
         node.attachChild(geom);
     }
-
+    
     private void createPhysics() {
         SphereCollisionShape sphereShape =
                 new SphereCollisionShape(0.3f);
-        physics = new RigidBodyControl(sphereShape, 1f);
+        physics = new RigidBodyControl(sphereShape, 10f);
         node.addControl(physics);
+        physics.setRestitution(0);
         physics.setCollisionGroup(PhysicsCollisionObject.COLLISION_GROUP_02);
         physics.setCollideWithGroups(PhysicsCollisionObject.COLLISION_GROUP_03);
         physics.addCollideWithGroup(PhysicsCollisionObject.COLLISION_GROUP_04);
     }
-
+    
     public RigidBodyControl getPhysics() {
         return physics;
     }
-
+    
     public void giveJump() {
         this.jump = true;
     }
-
+    
     public void jump() {
         if (this.jump == true) {
             this.jump = false;
@@ -69,22 +70,22 @@ public class Marble {
                 physics.setLinearVelocity(new Vector3f(0, moveSpeed, 0));
             }
         }
-
+        
     }
-
+    
     public void moveUp() {
-        physics.setLinearVelocity(new Vector3f(0, 0, -moveSpeed));
+        physics.setLinearVelocity(new Vector3f(0, -1, -moveSpeed));
     }
-
+    
     public void moveDown() {
-        physics.setLinearVelocity(new Vector3f(0, 0, moveSpeed));
+        physics.setLinearVelocity(new Vector3f(0, -1, moveSpeed));
     }
-
+    
     public void moveLeft() {
-        physics.setLinearVelocity(new Vector3f(-moveSpeed, 0, 0));
+        physics.setLinearVelocity(new Vector3f(-moveSpeed, -1, 0));
     }
-
+    
     public void moveRight() {
-        physics.setLinearVelocity(new Vector3f(moveSpeed, 0, 0));
+        physics.setLinearVelocity(new Vector3f(moveSpeed, -1, 0));
     }
 }

@@ -66,7 +66,7 @@ public class GameAppState extends AbstractAppState {
     @Override
     public void update(float tpf) {
         updateMarble(tpf);
-
+        testWin();
     }
 
     @Override
@@ -83,7 +83,7 @@ public class GameAppState extends AbstractAppState {
     }
 
     private void initCamera() {
-        camera = new GameCamera(this.app.getCamera());
+        camera = new GameCamera(this.app.getCamera(), app.getInputManager(), marble.getNode());
     }
 
     private void initLights() {
@@ -126,25 +126,23 @@ public class GameAppState extends AbstractAppState {
 
     private void updateMarble(float tpf) {
 
-        int x = (int) (marble.getNode().getWorldTranslation().getX() / 4 + abstractMap.getWidth() / 2
-                + (abstractMap.getWidth() % 2 == 1 ? 0.5 : 0));
-        int z = (int) (marble.getNode().getWorldTranslation().getZ() / 4 + abstractMap.getHeight() / 2
-                + (abstractMap.getHeight() % 2 == 1 ? 0.5 : 0));
-        if (abstractMap.get(x, z) == abstractMap.getTarget()) {
-            showWin();
-        } else if (abstractMap.get(x, z).getType().equals(MapType.STAR)) {
+        int x = getMarbleX();
+        int z = getMarbleY();
+        MapElement mapElement = abstractMap.get(x, z);
+        if (mapElement == null) {
+            showGameOver();
+            return;
+        }
+        if (mapElement.getType().equals(MapType.STAR)) {
             marble.giveJump();
+            showJump();
         }
         this.timer += tpf;
         if (timer > 5 && start) {
             timer = 0;
             ai.doWork(x, z);
             map.updateWalls();
-            try {
-                MapElement mapElement = abstractMap.get(x, z);
-                abstractMap.setMarble(mapElement);
-            } catch (Exception e) {
-            }
+            abstractMap.setMarble(mapElement);
         } else {
             if (this.timer > 5) {
                 this.start = true;
@@ -152,13 +150,54 @@ public class GameAppState extends AbstractAppState {
         }
     }
 
+    private int getMarbleX() {
+        return (int) (marble.getNode().getWorldTranslation().getX() / 4 + abstractMap.getWidth() / 2
+                + (abstractMap.getWidth() % 2 == 1 ? 0.5 : 0));
+    }
+
+    private int getMarbleY() {
+        return (int) (marble.getNode().getWorldTranslation().getZ() / 4 + abstractMap.getHeight() / 2
+                + (abstractMap.getHeight() % 2 == 1 ? 0.5 : 0));
+    }
+
     private void showWin() {
         app.getGuiNode().detachAllChildren();
         BitmapText hudText = new BitmapText(app.getGuiFont(), false);
-        hudText.setSize(app.getGuiFont().getCharSet().getRenderedSize());
+        hudText.setSize(app.getGuiFont().getCharSet().getRenderedSize() * 3);
         hudText.setColor(ColorRGBA.White);
         hudText.setText("W I N !!!");
-        hudText.setLocalTranslation(app.getContext().getSettings().getWidth() / 2, hudText.getLineHeight(), 0);
+        hudText.setLocalTranslation(app.getContext().getSettings().getWidth() / 2,
+                app.getContext().getSettings().getHeight() / 2 + hudText.getLineHeight(), 0);
+        app.getGuiNode().attachChild(hudText);
+    }
+
+    private void testWin() {
+        int x = getMarbleX();
+        int z = getMarbleY();
+        if (abstractMap.get(x, z) == abstractMap.getTarget()) {
+            showWin();
+        }
+    }
+
+    private void showGameOver() {
+        app.getGuiNode().detachAllChildren();
+        BitmapText hudText = new BitmapText(app.getGuiFont(), false);
+        hudText.setSize(app.getGuiFont().getCharSet().getRenderedSize() * 3);
+        hudText.setColor(ColorRGBA.Red);
+        hudText.setText("Game Over");
+        hudText.setLocalTranslation(app.getContext().getSettings().getWidth() / 2,
+                app.getContext().getSettings().getHeight() / 2 + hudText.getLineHeight(), 0);
+        app.getGuiNode().attachChild(hudText);
+    }
+
+    private void showJump() {
+        app.getGuiNode().detachAllChildren();
+        BitmapText hudText = new BitmapText(app.getGuiFont(), false);
+        hudText.setSize(app.getGuiFont().getCharSet().getRenderedSize() * 2);
+        hudText.setColor(ColorRGBA.Blue);
+        hudText.setText("You can now jump one time!\n" + inputController.getJumpText());
+        hudText.setLocalTranslation(app.getContext().getSettings().getWidth() / 3,
+                3 * app.getContext().getSettings().getHeight() / 4 + hudText.getLineHeight(), 0);
         app.getGuiNode().attachChild(hudText);
     }
 }
